@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คลังจดหมายเหตุดิจิทัล | สำนักงานเศรษฐกิจการคลัง (สศค.)</title>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1e3a8a; /* สีน้ำเงิน สศค. */
+            --secondary: #0d9488;
+            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Sarabun', sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-main); line-height: 1.6; }
+
+        /* Header Navigation */
+        header { background: #ffffff; border-bottom: 2px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; }
+        .logo { font-size: 1.25rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 600; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* Hero Section & Search Bar */
+        .hero { background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%); color: white; padding: 4rem 2rem; text-align: center; }
+        .hero h1 { font-size: 2.2rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; }
+        .search-box { max-width: 600px; margin: 0 auto; display: flex; background: white; border-radius: 50px; overflow: hidden; padding: 5px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .search-box input { border: none; padding: 0.8rem 1.5rem; width: 100%; outline: none; font-size: 1rem; }
+        .search-box button { background: var(--secondary); color: white; border: none; padding: 0.8rem 1.8rem; border-radius: 50px; cursor: pointer; font-weight: 600; }
+
+        /* Main Container Layout */
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+
+        /* Article / Content Area */
+        .main-content { background: white; padding: 2.5rem; border-radius: 12px; border: 1px solid var(--border-color); }
+        .category-badge { background: #dbeafe; color: var(--primary); padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+        .article-title { font-size: 1.8rem; margin: 1rem 0; color: var(--primary); }
+        .meta-info { font-size: 0.9rem; color: #64748b; margin-bottom: 1.5rem; display: flex; gap: 1rem; }
+        
+        .key-takeaway { background: #f0fdf4; border-left: 4px solid #16a34a; padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-radius: 4px; }
+        .key-takeaway h4 { color: #15803d; margin-bottom: 0.3rem; }
+
+        .article-body h3 { color: var(--primary); margin: 1.5rem 0 0.8rem 0; }
+        .article-body p { margin-bottom: 1rem; color: #334155; }
+        .article-body ul { margin: 1rem 0 1rem 1.5rem; color: #334155; }
+
+        /* Archive Source Box & CTA */
+        .archive-source { background: #f1f5f9; padding: 1rem; border-radius: 8px; margin-top: 2rem; font-size: 0.95rem; }
+        .cta-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--primary); color: white; text-decoration: none; padding: 0.8rem 1.5rem; border-radius: 6px; font-weight: 600; margin-top: 1rem; }
+        .cta-btn:hover { background: #1d4ed8; }
+
+        /* Sidebar Section */
+        .sidebar-card { background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 1.5rem; }
+        .sidebar-card h3 { border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem; font-size: 1.1rem; color: var(--primary); }
+        .bulletin-list { list-style: none; }
+        .bulletin-list li { margin-bottom: 0.8rem; border-bottom: 1px dashed var(--border-color); padding-bottom: 0.5rem; }
+        .bulletin-list a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.95rem; }
+        .bulletin-list a:hover { color: var(--secondary); }
+
+        /* Footer */
+        footer { background: #0f172a; color: white; text-align: center; padding: 2rem; margin-top: 3rem; font-size: 0.9rem; }
+
+        /* Responsive Mobile Layout */
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fa-solid fa-landmark"></i> คลังจดหมายเหตุดิจิทัล สศค.
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">หน้าแรก</a></li>
+                <li><a href="#">คลังเอกสาร</a></li>
+                <li><a href="#">จุลสารจดหมายเหตุ</a></li>
+                <li><a href="#">นิทรรศการออนไลน์</a></li>
+                <li><a href="#">ติดต่อเรา</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero & Search Section -->
+    <section class="hero">
+        <h1>ศูนย์รวบรวมประวัติศาสตร์และการคลังไทย</h1>
+        <p>สืบค้นเอกสารจดหมายเหตุ จุลสารรายไตรมาส และนิทรรศการออนไลน์ สศค.</p>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="พิมพ์คีย์เวิร์ดค้นหา เช่น พ.ร.ก. กู้เงิน, ภาษี, วิกฤตปี 40...">
+            <button onclick="searchArchive()"><i class="fa-solid fa-magnifying-glass"></i> ค้นหา</button>
+        </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <div class="container">
+        
+        <!-- Web Article Content -->
+        <main class="main-content">
+            <span class="category-badge">เรื่องเด่นจากจุลสาร</span>
+            <h1 class="article-title">ถอดบทเรียน "พ.ร.ก. กู้เงินฉุกเฉิน": ย้อนรอยเครื่องมือทางการคลังในการรับมือวิกฤตเศรษฐกิจ</h1>
+            
+            <div class="meta-info">
+                <span><i class="fa-regular fa-user"></i> งานจดหมายเหตุ สศค.</span>
+                <span><i class="fa-regular fa-calendar"></i> 26 สิงหาคม 2026</span>
+                <span><i class="fa-regular fa-clock"></i> อ่าน 3 นาที</span>
+            </div>
+
+            <div class="key-takeaway">
+                <h4><i class="fa-solid fa-circle-check"></i> สรุปประเด็นสำคัญ (Key Takeaway)</h4>
+                <p>การออกพระราชกำหนดกู้เงินฉุกเฉินเป็นกลไกสำคัญทางกฎหมายและการคลังที่ สศค. มีบทบาทในการยกร่างและบริหารจัดการ เพื่อจัดหาแหล่งเงินทุนอย่างทันท่วงทีในยามเกิดวิกฤตการณ์ระดับประเทศ</p>
+            </div>
+
+            <div class="article-body">
+                <h3>จุดเริ่มต้นของกฎหมายการคลังฉุกเฉิน</h3>
+                <p>เมื่อประเทศต้องเผชิญกับสถานการณ์ไม่คาดคิดที่ส่งผลกระทบต่อระบบเศรษฐกิจอย่างรุนแรง กลไกงบประมาณรายจ่ายประจำปีแบบปกติอาจไม่เพียงพอ บทบาทของสำนักงานเศรษฐกิจการคลัง (สศค.) คือการเสนอแนะมาตรการทางการคลังที่ยืดหยุ่นและรวดเร็ว</p>
+
+                <h3>3 เสาหลักในการจัดทำมาตรการกู้เงิน</h3>
+                <ul>
+                    <li><strong>ความจำเป็นและความเร่งด่วน:</strong> เป็นสถานการณ์ฉุกเฉินที่ไม่สามารถใช้นโยบายงบประมาณปกติได้ทัน</li>
+                    <li><strong>ความคุ้มค่าและวัตถุประสงค์ที่ชัดเจน:</strong> กำหนดกรอบการใช้จ่ายเงินกู้ให้ตรงจุด เช่น การฟื้นฟูระบบเศรษฐกิจ</li>
+                    <li><strong>วินัยและการบริหารหนี้สาธารณะ:</strong> ควบคุมสัดส่วนหนี้สาธารณะต่อ GDP ให้อยู่ในระดับที่มั่นคง</li>
+                </ul>
+            </div>
+
+            <div class="archive-source">
+                <i class="fa-solid fa-book-open"></i> <strong>อ้างอิงจากจุลสาร:</strong> บทความนี้ปรับปรุงเนื้อหามาจากคอลัมน์ <em>เปิดตำราการคลัง</em> ในจุลสารจดหมายเหตุ สศค. ฉบับประจำไตรมาสที่ 2/2568
+            </div>
+
+            <a href="#" class="cta-btn"><i class="fa-solid fa-file-pdf"></i> ดาวน์โหลดจุลสารฉบับเต็ม (PDF)</a>
+        </main>
+
+        <!-- Sidebar Area -->
+        <aside class="sidebar">
+            <div class="sidebar-card">
+                <h3><i class="fa-solid fa-newspaper"></i> จุลสารฉบับล่าสุด</h3>
+                <ul class="bulletin-list">
+                    <li><a href="#">จุลสาร สศค. ฉบับไตรมาส 2/2569</a></li>
+                    <li><a href="#">จุลสาร สศค. ฉบับไตรมาส 1/2569</a></li>
+                    <li><a href="#">จุลสาร สศค. ฉบับไตรมาส 4/2568</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-card">
+                <h3><i class="fa-solid fa-vr-cardboard"></i> นิทรรศการออนไลน์</h3>
+                <p style="font-size:0.9rem; color:#64748b; margin-bottom: 0.8rem;">ขอเชิญเข้าชมระบบนิทรรศการเสมือนจริงย้อนหลัง</p>
+                <a href="#" style="color:var(--secondary); font-weight:600; text-decoration:none;">เข้าชมนิทรรศการปี 2568 &rarr;</a>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 งานจดหมายเหตุ ห้องสมุด สำนักงานเศรษฐกิจการคลัง (สศค.)</p>
+        <p style="opacity: 0.7; font-size: 0.8rem; margin-top: 0.5rem;">กระทรวงการคลัง ถนนพระรามที่ 6 แขวงพญาไท เขตพญาไท กรุงเทพฯ 10400</p>
+    </footer>
+
+    <script>
+        function searchArchive() {
+            const query = document.getElementById('searchInput').value;
+            if(query) {
+                alert('ระบบกำลังค้นหาคำว่า: "' + query + '" ในฐานข้อมูล Google Sheets...');
+                // ในระบบจริง ส่วนนี้จะเขียนด้วย JavaScript fetch() เพื่อดึงข้อมูลมาจาก Google Apps Script Web App
+            } else {
+                alert('กรุณากรอกคำค้นหา');
+            }
+        }
+    </script>
+</body>
+</html>
