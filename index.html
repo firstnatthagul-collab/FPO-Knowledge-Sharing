@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FPO Knowledge Sharing | ศูนย์รวม e-Book ฟรี</title>
-    <!-- Tailwind CSS & PapaParse (สำหรับแปลง CSV เป็น JSON) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script>
@@ -46,7 +45,6 @@
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col">
 
-    <!-- Header & Navigation -->
     <header class="glass-header text-white sticky top-0 z-50 border-b border-amber-500/20 shadow-2xl">
         <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-4">
@@ -59,7 +57,6 @@
                 </div>
             </div>
             
-            <!-- Quick Search -->
             <div class="w-full md:w-96 relative">
                 <input type="text" id="searchInput" onkeyup="filterBooks()" placeholder="ค้นหาชื่อหนังสือ, ผู้แต่ง, หรือเนื้อหารีวิว..." 
                        class="w-full pl-11 pr-4 py-2.5 rounded-full bg-slate-900/80 border border-amber-500/30 text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-amber-400/50 shadow-inner transition-all">
@@ -68,22 +65,15 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-6 py-8 flex-grow w-full space-y-6">
         
-        <!-- Advanced Search Panel -->
         <div class="bg-white/90 backdrop-blur-md p-6 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200/80 space-y-4">
             
-            <!-- Category Filter Buttons -->
             <div class="flex flex-wrap gap-2 items-center justify-between pb-4 border-b border-slate-100">
-                <div class="flex flex-wrap gap-2 items-center">
+                <div class="flex flex-wrap gap-2 items-center" id="typeButtonsContainer">
                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2">ประเภท:</span>
                     <button onclick="setFilter('type', 'all')" class="type-btn px-4 py-2 text-xs rounded-xl font-semibold shadow-md shadow-amber-500/10 gold-gradient-bg text-slate-950 transition-all">ทั้งหมด</button>
-                    <button onclick="setFilter('type', 'หนังสือ')" class="type-btn px-4 py-2 text-xs rounded-xl font-medium bg-slate-100 text-slate-600 hover:bg-slate-200/80 transition-all">หนังสือ</button>
-                    <button onclick="setFilter('type', 'วารสาร')" class="type-btn px-4 py-2 text-xs rounded-xl font-medium bg-slate-100 text-slate-600 hover:bg-slate-200/80 transition-all">วารสาร</button>
-                    <button onclick="setFilter('type', 'งานวิจัย')" class="type-btn px-4 py-2 text-xs rounded-xl font-medium bg-slate-100 text-slate-600 hover:bg-slate-200/80 transition-all">งานวิจัย</button>
-                    <button onclick="setFilter('type', 'รายงาน')" class="type-btn px-4 py-2 text-xs rounded-xl font-medium bg-slate-100 text-slate-600 hover:bg-slate-200/80 transition-all">รายงาน</button>
-                </div>
+                    </div>
                 
                 <button onclick="resetFilters()" class="text-xs text-amber-600 hover:text-amber-700 font-semibold flex items-center gap-1 transition-colors">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
@@ -91,17 +81,11 @@
                 </button>
             </div>
 
-            <!-- Deep Filters Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-1">
                 <div>
                     <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">หมวดหมู่เนื้อหา</label>
                     <select id="categorySelect" onchange="filterBooks()" class="w-full bg-slate-50 border border-slate-200 text-slate-700 text-xs font-medium rounded-xl p-2.5 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all">
                         <option value="all">ทุกหมวดหมู่</option>
-                        <option value="เศรษฐศาสตร์">เศรษฐศาสตร์</option>
-                        <option value="การเงินการคลัง">การเงินการคลัง</option>
-                        <option value="เกษตร">เกษตร</option>
-                        <option value="เทคโนโลยี">เทคโนโลยี</option>
-                        <option value="ทั่วไป">ทั่วไป</option>
                     </select>
                 </div>
 
@@ -109,9 +93,6 @@
                     <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">ปีที่เผยแพร่</label>
                     <select id="yearSelect" onchange="filterBooks()" class="w-full bg-slate-50 border border-slate-200 text-slate-700 text-xs font-medium rounded-xl p-2.5 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all">
                         <option value="all">ทุกปีที่เผยแพร่</option>
-                        <option value="2026">พ.ศ. 2569 (2026)</option>
-                        <option value="2025">พ.ศ. 2568 (2025)</option>
-                        <option value="2024">พ.ศ. 2567 (2024) หรือเก่ากว่า</option>
                     </select>
                 </div>
 
@@ -133,243 +114,10 @@
             </div>
         </div>
 
-        <!-- Result Status Counter & Loading State -->
         <div class="flex justify-between items-center px-2">
             <span class="text-xs text-slate-500 font-medium">พบผลลัพธ์ทั้งหมด <strong id="resultCount" class="text-amber-600 font-bold">0</strong> รายการ</span>
         </div>
 
-        <!-- Books Grid Showcase -->
         <div id="booksGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            <!-- Loading Indicator Dynamic Output -->
             <div class="col-span-full text-center py-20 text-slate-400 font-light flex flex-col items-center gap-3">
-                <svg class="animate-spin h-8 w-8 text-amber-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                <span>กำลังโหลดข้อมูลหนังสือจาก Google Sheets...</span>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Review Modal -->
-    <div id="reviewModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-md hidden z-50 flex items-center justify-center p-4 transition-opacity">
-        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 relative shadow-2xl border border-amber-500/20">
-            <button onclick="closeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-800 p-2 rounded-full hover:bg-slate-100 transition-all">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            
-            <div class="mb-3">
-                <span id="modalCategory" class="text-[10px] font-bold tracking-widest uppercase text-amber-600 bg-amber-50 border border-amber-200/60 px-3 py-1 rounded-full"></span>
-            </div>
-            
-            <h2 id="modalTitle" class="text-xl font-bold text-slate-900 leading-tight"></h2>
-            <p id="modalAuthor" class="text-xs text-slate-400 font-light mt-1 mb-6"></p>
-            
-            <div class="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent mb-6"></div>
-            
-            <div id="modalContent" class="text-sm text-slate-600 leading-relaxed whitespace-pre-line mb-8 font-light"></div>
-            
-            <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
-                <button onclick="closeModal()" class="px-5 py-2.5 text-xs font-semibold text-slate-500 hover:bg-slate-100 rounded-xl transition-all">ปิดหน้าต่าง</button>
-                <a id="modalSourceBtn" href="#" target="_blank" class="px-5 py-2.5 text-xs gold-gradient-bg text-slate-950 font-bold rounded-xl shadow-lg shadow-amber-500/20 hover:opacity-95 inline-flex items-center gap-2 transition-all">
-                    อ่านเล่มฉบับเต็ม
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript Fetch Google Sheets Data -->
-    <script>
-        // 📌 นำ URL Google Sheets CSV ที่ได้จากการ Publish มาวางแทนที่ตรงนี้
-        const GOOGLE_SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTpEHhBbCjLcAAEV1WRsuesUK3JJabw5FHf_X08nY4lWV7Gxi8yuQfdjngr7LvOkO9lPVVVcxkvJOz4/pub?output=csv';
-
-        let booksData = [];
-        let currentType = 'all';
-
-        // ดึงข้อมูลจาก Google Sheets ผ่าน PapaParse
-        function fetchBooksFromGoogleSheets() {
-            // กรณีที่ยังไม่ได้วาง URL จริง ให้ดึงข้อมูลตัวอย่างชั่วคราว
-            if (GOOGLE_SHEETS_CSV_URL === 'YOUR_GOOGLE_SHEETS_CSV_URL_HERE') {
-                console.warn("ยังไม่ได้ใส่ URL Google Sheets CSV ใช้งานข้อมูล Mock Data ชั่วคราว");
-                booksData = [
-                    {
-                        id: "BK-001",
-                        title: "รายงานภาวะเศรษฐกิจการคลัง ประจำปี 2026",
-                        author: "สำนักงานเศรษฐกิจการคลัง",
-                        type: "รายงาน",
-                        category: "เศรษฐศาสตร์",
-                        year: "2026",
-                        cover_url: "https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?auto=format&fit=crop&w=400&q=80",
-                        source_url: "https://www.fpo.go.th",
-                        review: "สรุปภาพรวมภาวะเศรษฐกิจไทยในปีที่ผ่านมา พร้อมแนวโน้มและข้อเสนอแนะเชิงนโยบายการคลังที่สำคัญ"
-                    },
-                    {
-                        id: "BK-002",
-                        title: "Artificial Intelligence in Public Finance",
-                        author: "Tech & Finance Lab",
-                        type: "งานวิจัย",
-                        category: "เทคโนโลยี",
-                        year: "2026",
-                        cover_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80",
-                        source_url: "https://example.com/ai-paper",
-                        review: "งานวิจัยชิ้นนี้เจาะลึกการประยุกต์ใช้ AI ในการวิเคราะห์ข้อมูลภาษีและการประเมินความเสี่ยงทางการคลัง"
-                    }
-                ];
-                filterBooks();
-                return;
-            }
-
-            // อ่านข้อมูล CSV ด้วย PapaParse
-            Papa.parse(GOOGLE_SHEETS_CSV_URL, {
-                download: true,
-                header: true,
-                skipEmptyLines: true,
-                complete: function(results) {
-                    booksData = results.data;
-                    filterBooks();
-                },
-                error: function(err) {
-                    console.error("เกิดข้อผิดพลาดในการโหลดข้อมูล:", err);
-                    document.getElementById('booksGrid').innerHTML = `
-                        <div class="col-span-full text-center py-16 text-red-500 font-light">
-                            ไม่สามารถดึงข้อมูลจาก Google Sheets ได้ กรุณาตรวจสอบลิงก์ CSV
-                        </div>
-                    `;
-                }
-            });
-        }
-
-        function renderBooks(data) {
-            const grid = document.getElementById('booksGrid');
-            document.getElementById('resultCount').textContent = data.length;
-            grid.innerHTML = '';
-
-            if (data.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-16 text-slate-400 font-light">ไม่พบข้อมูลหนังสือตามเงื่อนไขที่กำหนด</div>`;
-                return;
-            }
-
-            data.forEach(book => {
-                const hasReview = book.review && book.review.trim() !== '';
-                const card = document.createElement('div');
-                card.className = "bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-hidden flex flex-col hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-amber-500/10 transition-all duration-300 group";
-                
-                card.innerHTML = `
-                    <div class="relative aspect-[3/4] bg-slate-900 overflow-hidden">
-                        <img src="${book.cover_url || 'https://via.placeholder.com/400x533?text=No+Cover'}" alt="${book.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-95 group-hover:opacity-100">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-amber-400 border border-amber-400/30 text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg">
-                            ${book.type || 'ทั่วไป'}
-                        </span>
-                        <span class="absolute top-3 right-3 bg-slate-900/70 backdrop-blur-md text-slate-300 text-[9px] font-medium px-2 py-0.5 rounded-md">
-                            ${book.year || ''}
-                        </span>
-                    </div>
-                    <div class="p-5 flex flex-col flex-grow">
-                        <span class="text-[10px] font-bold tracking-wider uppercase text-amber-600 mb-1.5">${book.category || 'ทั่วไป'}</span>
-                        <h3 class="font-bold text-slate-800 text-sm line-clamp-2 leading-snug mb-1 group-hover:text-amber-600 transition-colors" title="${book.title}">${book.title}</h3>
-                        <p class="text-[11px] text-slate-400 font-light mb-4 line-clamp-1">${book.author || 'ไม่ระบุผู้แต่ง'}</p>
-                        
-                        <div class="mt-auto flex flex-col gap-2">
-                            ${hasReview ? `
-                                <button onclick="openReview('${book.id}')" class="w-full py-2 px-3 text-xs bg-slate-50 hover:bg-amber-50 text-slate-700 hover:text-amber-700 font-medium rounded-xl border border-slate-200/60 hover:border-amber-200 text-center transition-all">
-                                    อ่านบทความรีวิว
-                                </button>
-                            ` : ''}
-                            <a href="${book.source_url || '#'}" target="_blank" class="w-full py-2 px-3 text-xs bg-slate-900 hover:bg-slate-950 text-white font-medium rounded-xl text-center flex items-center justify-center gap-1.5 shadow-md shadow-slate-950/10 transition-all">
-                                ลิงก์ต้นฉบับ
-                                <svg class="w-3 h-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                            </a>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function filterBooks() {
-            const searchText = document.getElementById('searchInput').value.toLowerCase().trim();
-            const selectedCategory = document.getElementById('categorySelect').value;
-            const selectedYear = document.getElementById('yearSelect').value;
-            const selectedSort = document.getElementById('sortSelect').value;
-            const reviewOnly = document.getElementById('reviewOnlyCheckbox').checked;
-
-            let filtered = booksData.filter(book => {
-                const matchesSearch = !searchText || 
-                                      (book.title && book.title.toLowerCase().includes(searchText)) || 
-                                      (book.author && book.author.toLowerCase().includes(searchText)) ||
-                                      (book.review && book.review.toLowerCase().includes(searchText));
-                
-                const matchesType = currentType === 'all' || book.type === currentType;
-                const matchesCategory = selectedCategory === 'all' || book.category === selectedCategory;
-                
-                let matchesYear = true;
-                if (selectedYear === '2026') matchesYear = String(book.year) === '2026';
-                else if (selectedYear === '2025') matchesYear = String(book.year) === '2025';
-                else if (selectedYear === '2024') matchesYear = parseInt(book.year) <= 2024;
-
-                const matchesReview = !reviewOnly || (book.review && book.review.trim() !== '');
-
-                return matchesSearch && matchesType && matchesCategory && matchesYear && matchesReview;
-            });
-
-            if (selectedSort === 'title_asc') {
-                filtered.sort((a, b) => (a.title || '').localeCompare(b.title || '', 'th'));
-            } else if (selectedSort === 'title_desc') {
-                filtered.sort((a, b) => (b.title || '').localeCompare(a.title || '', 'th'));
-            } else {
-                filtered.sort((a, b) => String(b.year || '').localeCompare(String(a.year || '')));
-            }
-
-            renderBooks(filtered);
-        }
-
-        function setFilter(filterType, value) {
-            if (filterType === 'type') {
-                currentType = value;
-                document.querySelectorAll('.type-btn').forEach(btn => {
-                    const text = btn.textContent.trim();
-                    if ((value === 'all' && text === 'ทั้งหมด') || text === value) {
-                        btn.className = 'type-btn px-4 py-2 text-xs rounded-xl font-semibold shadow-md shadow-amber-500/10 gold-gradient-bg text-slate-950 transition-all';
-                    } else {
-                        btn.className = 'type-btn px-4 py-2 text-xs rounded-xl font-medium bg-slate-100 text-slate-600 hover:bg-slate-200/80 transition-all';
-                    }
-                });
-            }
-            filterBooks();
-        }
-
-        function resetFilters() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('categorySelect').value = 'all';
-            document.getElementById('yearSelect').value = 'all';
-            document.getElementById('sortSelect').value = 'newest';
-            document.getElementById('reviewOnlyCheckbox').checked = false;
-            setFilter('type', 'all');
-        }
-
-        function openReview(id) {
-            const book = booksData.find(b => String(b.id) === String(id));
-            if (!book) return;
-
-            const yearStr = book.year ? ` (ปี พ.ศ. ${parseInt(book.year) + 543})` : '';
-            document.getElementById('modalTitle').textContent = book.title;
-            document.getElementById('modalAuthor').textContent = "จัดทำโดย: " + (book.author || 'ไม่ระบุ') + yearStr;
-            document.getElementById('modalCategory').textContent = (book.category || 'ทั่วไป') + " • " + (book.type || 'ทั่วไป');
-            document.getElementById('modalContent').textContent = book.review;
-            document.getElementById('modalSourceBtn').href = book.source_url || '#';
-            
-            document.getElementById('reviewModal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('reviewModal').classList.add('hidden');
-        }
-
-        // เริ่มดึงข้อมูลทันทีเมื่อเปิดหน้าเว็บ
-        fetchBooksFromGoogleSheets();
-    </script>
-</body>
-</html>
+                <svg class="animate-spin h-8 w-8 text-amber-500" xmlns="http://www.w3.org/2000/svg" fill="
