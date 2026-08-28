@@ -201,7 +201,8 @@
                     { id: "1", title: "รายงานภาวะเศรษฐกิจการคลัง 2026", author: "สศค.", type: "รายงาน", category: "เศรษฐศาสตร์", year: "2026", cover_url: "https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?auto=format&fit=crop&w=400&q=80", source_url: "#", review: "สรุปภาพรวมเศรษฐกิจ" },
                     { id: "2", title: "AI in Public Finance", author: "Tech Lab", type: "งานวิจัย", category: "เทคโนโลยี", year: "2025", cover_url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80", source_url: "#", review: "" }
                 ];
-                setupDynamicFilters();
+                setupTypeButtons();
+                updateDropdownOptions();
                 filterBooks();
                 return;
             }
@@ -212,7 +213,8 @@
                 skipEmptyLines: true,
                 complete: function(results) {
                     booksData = results.data.filter(b => b.title && b.title.trim() !== '');
-                    setupDynamicFilters();
+                    setupTypeButtons();
+                    updateDropdownOptions();
                     filterBooks();
                 },
                 error: function(err) {
@@ -221,7 +223,8 @@
             });
         }
 
-        function setupDynamicFilters() {
+        // 1. สร้างปุ่มประเภท (Type Buttons) ครั้งเดียวเมื่อโหลดข้อมูล
+        function setupTypeButtons() {
             const types = [...new Set(booksData.map(b => b.type).filter(Boolean))];
             const typeContainer = document.getElementById('typeButtonsContainer');
             typeContainer.innerHTML = `<span class="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2">ประเภท:</span>
@@ -234,27 +237,49 @@
                 btn.textContent = type;
                 typeContainer.appendChild(btn);
             });
+        }
 
-            const categories = [...new Set(booksData.map(b => b.category).filter(Boolean))].sort();
+        // 2. อัปเดตตัวเลือกใน Dropdown (หมวดหมู่ และ ปี) อ้างอิงตาม "ประเภท" ที่ถูกเลือกอยู่
+        function updateDropdownOptions() {
             const catSelect = document.getElementById('categorySelect');
+            const yearSelect = document.getElementById('yearSelect');
+            
+            const prevSelectedCat = catSelect.value;
+            const prevSelectedYear = yearSelect.value;
+
+            // กรองชุดข้อมูลตามประเภทที่เลือกอยู่
+            const filteredByCurrentType = (currentType === 'all') 
+                ? booksData 
+                : booksData.filter(b => b.type === currentType);
+
+            // ดึงเฉพาะหมวดหมู่ที่มีอยู่ในประเภทนั้นจริงๆ
+            const availableCategories = [...new Set(filteredByCurrentType.map(b => b.category).filter(Boolean))].sort();
             catSelect.innerHTML = '<option value="all">ทุกหมวดหมู่</option>';
-            categories.forEach(cat => {
+            availableCategories.forEach(cat => {
                 const opt = document.createElement('option');
                 opt.value = cat;
                 opt.textContent = cat;
                 catSelect.appendChild(opt);
             });
+            // คงค่าเดิมที่เคยเลือกไว้ ถ้าหมวดหมู่นั้นยังมีอยู่ในประเภทใหม่
+            if (availableCategories.includes(prevSelectedCat)) {
+                catSelect.value = prevSelectedCat;
+            }
 
-            const years = [...new Set(booksData.map(b => b.year).filter(Boolean))].sort((a, b) => b - a);
-            const yearSelect = document.getElementById('yearSelect');
+            // ดึงเฉพาะปีที่มีอยู่ในประเภทนั้นจริงๆ
+            const availableYears = [...new Set(filteredByCurrentType.map(b => b.year).filter(Boolean))].sort((a, b) => b - a);
             yearSelect.innerHTML = '<option value="all">ทุกปีที่เผยแพร่</option>';
-            years.forEach(year => {
+            availableYears.forEach(year => {
                 const opt = document.createElement('option');
                 opt.value = year;
                 const thYear = !isNaN(year) ? ` (พ.ศ. ${parseInt(year) + 543})` : '';
                 opt.textContent = year + thYear;
                 yearSelect.appendChild(opt);
             });
+            // คงค่าเดิมที่เคยเลือกไว้ ถ้าปีนั้นยังมีอยู่ในประเภทใหม่
+            if (availableYears.includes(prevSelectedYear)) {
+                yearSelect.value = prevSelectedYear;
+            }
         }
 
         function renderBooks(data) {
@@ -340,6 +365,8 @@
         function setFilter(filterType, value) {
             if (filterType === 'type') {
                 currentType = value;
+                
+                // สลับคลาสการแสดงผลบนปุ่มประเภท
                 document.querySelectorAll('.type-btn').forEach(btn => {
                     const text = btn.textContent.trim();
                     if ((value === 'all' && text === 'ทั้งหมด') || text === value) {
@@ -348,14 +375,15 @@
                         btn.className = 'type-btn px-4 py-2 text-xs rounded-xl font-medium bg-slate-100 text-slate-600 hover:bg-slate-200/80 transition-all';
                     }
                 });
+
+                // 📌 อัปเดตรายการหมวดหมู่และปี ให้เหลือเฉพาะที่มีในประเภทนี้เท่านั้น
+                updateDropdownOptions();
             }
             filterBooks();
         }
 
         function resetFilters() {
             document.getElementById('searchInput').value = '';
-            document.getElementById('categorySelect').value = 'all';
-            document.getElementById('yearSelect').value = 'all';
             document.getElementById('sortSelect').value = 'newest';
             document.getElementById('reviewOnlyCheckbox').checked = false;
             setFilter('type', 'all');
