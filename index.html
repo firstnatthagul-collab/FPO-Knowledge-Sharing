@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FPO Knowledge Sharing | ศูนย์รวม e-Book ฟรี</title>
+    <!-- Tailwind CSS & PapaParse -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script>
@@ -53,6 +54,7 @@
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col">
 
+    <!-- Header & Navigation -->
     <header class="glass-header text-white sticky top-0 z-50 border-b border-sky-500/20 shadow-xl shadow-sky-950/10">
         <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-4">
@@ -65,6 +67,7 @@
                 </div>
             </div>
             
+            <!-- Search Box -->
             <div class="w-full md:w-96 relative">
                 <input type="text" id="searchInput" onkeyup="filterBooks()" placeholder="ค้นหาชื่อหนังสือ, ผู้แต่ง, หรือเนื้อหารีวิว..." 
                        class="w-full pl-11 pr-4 py-2.5 rounded-full bg-slate-900/90 border border-sky-400/30 text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-sky-400/50 shadow-inner transition-all">
@@ -73,8 +76,10 @@
         </div>
     </header>
 
+    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-6 py-8 flex-grow w-full space-y-8">
         
+        <!-- About Banner -->
         <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white p-8 md:p-10 shadow-2xl border border-sky-500/20">
             <div class="relative z-10 max-w-3xl space-y-3">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-300 text-xs font-medium">
@@ -91,6 +96,7 @@
             <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
         </div>
 
+        <!-- 📌 ส่วนแสดง "คอลเล็กชันพิเศษ" (Curated Collections Shelf) -->
         <div id="collectionSection" class="space-y-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
@@ -99,12 +105,16 @@
                 </div>
                 <span class="text-xs text-slate-400 font-light">คัดสรรโดยห้องสมุด</span>
             </div>
+            <!-- แถบปุ่มเลือกคอลเล็กชัน -->
             <div id="collectionButtons" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2">
-                </div>
+                <!-- JS จะเติมปุ่มคอลเล็กชันให้อัตโนมัติ -->
+            </div>
         </div>
 
+        <!-- Dynamic Filter Panel -->
         <div class="bg-white/80 backdrop-blur-md p-6 rounded-3xl shadow-xl shadow-sky-900/5 border border-sky-100 space-y-4">
             
+            <!-- Type Buttons -->
             <div class="flex flex-wrap gap-2 items-center justify-between pb-4 border-b border-slate-100">
                 <div class="flex flex-wrap gap-2 items-center" id="typeButtonsContainer">
                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2">ประเภท:</span>
@@ -117,6 +127,7 @@
                 </button>
             </div>
 
+            <!-- Dependent Dropdowns Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-1">
                 <div>
                     <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">หมวดหมู่เนื้อหา</label>
@@ -150,10 +161,12 @@
             </div>
         </div>
 
+        <!-- Result Counter -->
         <div class="flex justify-between items-center px-2">
             <span class="text-xs text-slate-500 font-medium">พบผลลัพธ์ทั้งหมด <strong id="resultCount" class="text-sky-600 font-bold">0</strong> รายการ</span>
         </div>
 
+        <!-- Books Grid Showcase -->
         <div id="booksGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
             <div class="col-span-full text-center py-20 text-slate-400 font-light flex flex-col items-center gap-3">
                 <svg class="animate-spin h-8 w-8 text-sky-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -166,6 +179,7 @@
 
     </main>
 
+    <!-- Footer Credit -->
     <footer class="bg-slate-950 text-slate-400 border-t border-slate-800 mt-12 py-8 px-6">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
             <div>
@@ -180,6 +194,7 @@
         </div>
     </footer>
 
+    <!-- Review Modal -->
     <div id="reviewModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-md hidden z-50 flex items-center justify-center p-4 transition-opacity">
         <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 relative shadow-2xl border border-sky-100">
             <button onclick="closeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-800 p-2 rounded-full hover:bg-slate-100 transition-all">
@@ -202,37 +217,22 @@
         </div>
     </div>
 
+    <!-- JavaScript Data Fetching & Curated Collections -->
     <script>
         const GOOGLE_SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTpEHhBbCjLcAAEV1WRsuesUK3JJabw5FHf_X08nY4lWV7Gxi8yuQfdjngr7LvOkO9lPVVVcxkvJOz4/pub?output=csv';
 
-        let rawBooksData = []; // ข้อมูลต้นฉบับจาก Sheets
-        let booksData = [];    // ข้อมูลที่จัดเรียงเรียบร้อยแล้ว
+        let booksData = [];
         let currentType = 'all';
         let currentCollection = 'all';
-
-        // 🛠️ ฟังก์ชันป้องกัน 404: เติม https:// ให้อัตโนมัติหากไม่ได้ใส่
-        function formatUrl(url) {
-            if (!url || url.trim() === '' || url.trim() === '#') return '#';
-            const cleanUrl = url.trim();
-            if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
-                return 'https://' + cleanUrl;
-            }
-            return cleanUrl;
-        }
 
         function fetchBooksFromGoogleSheets() {
             if (GOOGLE_SHEETS_CSV_URL === 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTpEHhBbCjLcAAEV1WRsuesUK3JJabw5FHf_X08nY4lWV7Gxi8yuQfdjngr7LvOkO9lPVVVcxkvJOz4/pub?output=csv') {
                 console.warn("ยังไม่ได้ใส่ URL Google Sheets CSV ใช้ Mock Data ชั่วคราว");
-                let mockData = [
-                    { id: "1", title: "รายงานภาวะเศรษฐกิจการคลัง 2026", author: "สศค.", type: "รายงาน", category: "เศรษฐศาสตร์", year: "2026", collection: "Monthly Highlight", cover_url: "https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?auto=format&fit=crop&w=400&q=80", source_url: "www.fpo.go.th", review: "สรุปภาพรวมเศรษฐกิจ" },
-                    { id: "2", title: "My Introvert Story", author: "FPO Library", type: "หนังสือ", category: "จิตวิทยา", year: "2026", collection: "My Introvert Story", cover_url: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=80", source_url: "www.fpo.go.th", review: "เรื่องราวของชาว Introvert" },
-                    { id: "3", title: "FPO Green Library Guide", author: "สศค.", type: "คู่มือ", category: "สิ่งแวดล้อม", year: "2025", collection: "Green Library", cover_url: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80", source_url: "www.fpo.go.th", review: "แนวทางห้องสมุดสีเขียว" }
+                booksData = [
+                    { id: "1", title: "รายงานภาวะเศรษฐกิจการคลัง 2026", author: "สศค.", type: "รายงาน", category: "เศรษฐศาสตร์", year: "2026", collection: "Monthly Highlight", cover_url: "https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?auto=format&fit=crop&w=400&q=80", source_url: "#", review: "สรุปภาพรวมเศรษฐกิจ" },
+                    { id: "2", title: "My Introvert Story", author: "FPO Library", type: "หนังสือ", category: "จิตวิทยา", year: "2026", collection: "My Introvert Story", cover_url: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=80", source_url: "#", review: "เรื่องราวของชาว Introvert" },
+                    { id: "3", title: "FPO Green Library Guide", author: "สศค.", type: "คู่มือ", category: "สิ่งแวดล้อม", year: "2025", collection: "Green Library", cover_url: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80", source_url: "#", review: "แนวทางห้องสมุดสีเขียว" }
                 ];
-                
-                // 🔄 ลับลำดับให้อัตโนมัติเพื่อให้รายการแถวล่างสุดมาเป็นรายการแรก
-                rawBooksData = mockData.filter(b => b.title && b.title.trim() !== '');
-                booksData = [...rawBooksData].reverse();
-                
                 setupCollections();
                 setupTypeButtons();
                 updateDropdownOptions();
@@ -245,10 +245,7 @@
                 header: true,
                 skipEmptyLines: true,
                 complete: function(results) {
-                    // กรองเฉพาะที่มีชื่อเรื่อง และกลับลำดับแถว (Reverse)
-                    rawBooksData = results.data.filter(b => b.title && b.title.trim() !== '');
-                    booksData = [...rawBooksData].reverse();
-                    
+                    booksData = results.data.filter(b => b.title && b.title.trim() !== '');
                     setupCollections();
                     setupTypeButtons();
                     updateDropdownOptions();
@@ -267,7 +264,7 @@
             const section = document.getElementById('collectionSection');
 
             if (collections.length === 0) {
-                section.style.display = 'none';
+                section.style.display = 'none'; // ถ้าไม่มีข้อมูลคอลเล็กชัน ให้ซ่อนโซนนี่ไว้
                 return;
             }
 
@@ -365,23 +362,20 @@
             data.forEach(book => {
                 const hasReview = book.review && book.review.trim() !== '';
                 const hasCollection = book.collection && book.collection.trim() !== '';
-                
-                // 🛠️ ใช้ formatUrl เพื่อตรวจสอบและเติม https:// ให้อัตโนมัติ
-                const safeSourceUrl = formatUrl(book.source_url);
-                const safeCoverUrl = formatUrl(book.cover_url) || 'https://via.placeholder.com/400x533?text=No+Cover';
-
                 const card = document.createElement('div');
                 card.className = "bg-white rounded-2xl shadow-lg shadow-sky-900/5 border border-sky-100/60 overflow-hidden flex flex-col hover:-translate-y-1.5 hover:shadow-xl hover:shadow-sky-500/15 transition-all duration-300 group";
                 
                 card.innerHTML = `
                     <div class="relative aspect-[3/4] bg-slate-900 overflow-hidden">
-                        <img src="${safeCoverUrl}" alt="${book.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-95 group-hover:opacity-100">
+                        <img src="${book.cover_url || 'https://via.placeholder.com/400x533?text=No+Cover'}" alt="${book.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-95 group-hover:opacity-100">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         
+                        <!-- Badge ประเภท -->
                         <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-sky-300 border border-sky-400/30 text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg">
                             ${book.type || 'ทั่วไป'}
                         </span>
                         
+                        <!-- Badge คอลเล็กชันพิเศษ (ถ้ามี) -->
                         ${hasCollection ? `
                             <span class="absolute bottom-3 left-3 right-3 bg-sky-500/90 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-lg truncate text-center shadow-lg">
                                 ✨ ${book.collection}
@@ -403,7 +397,7 @@
                                     อ่านบทความรีวิว
                                 </button>
                             ` : ''}
-                            <a href="${safeSourceUrl}" target="_blank" class="w-full py-2 px-3 text-xs bg-slate-900 hover:bg-slate-950 text-white font-medium rounded-xl text-center flex items-center justify-center gap-1.5 shadow-md shadow-slate-950/10 transition-all">
+                            <a href="${book.source_url || '#'}" target="_blank" class="w-full py-2 px-3 text-xs bg-slate-900 hover:bg-slate-950 text-white font-medium rounded-xl text-center flex items-center justify-center gap-1.5 shadow-md shadow-slate-950/10 transition-all">
                                 ลิงก์ต้นฉบับ
                                 <svg class="w-3 h-3 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                             </a>
@@ -436,13 +430,13 @@
                 return matchesSearch && matchesType && matchesCategory && matchesYear && matchesReview && matchesCollection;
             });
 
-            // การจัดเรียงตามที่ผู้ใช้เลือกใน Dropdown
             if (selectedSort === 'title_asc') {
                 filtered.sort((a, b) => (a.title || '').localeCompare(b.title || '', 'th'));
             } else if (selectedSort === 'title_desc') {
                 filtered.sort((a, b) => (b.title || '').localeCompare(a.title || '', 'th'));
-            } 
-            // กรณีเลือก "รายการล่าสุด" จะใช้ลำดับบรรทัดล่าสุดจาก Google Sheets (ซึ่งทำการ reverse เรียบร้อยแล้ว)
+            } else {
+                filtered.sort((a, b) => String(b.year || '').localeCompare(String(a.year || '')));
+            }
 
             renderBooks(filtered);
         }
@@ -480,7 +474,7 @@
             document.getElementById('modalAuthor').textContent = "จัดทำโดย: " + (book.author || 'ไม่ระบุ') + yearStr;
             document.getElementById('modalCategory').textContent = (book.category || 'ทั่วไป') + " • " + (book.type || 'ทั่วไป');
             document.getElementById('modalContent').textContent = book.review;
-            document.getElementById('modalSourceBtn').href = formatUrl(book.source_url);
+            document.getElementById('modalSourceBtn').href = book.source_url || '#';
             
             document.getElementById('reviewModal').classList.remove('hidden');
         }
@@ -488,11 +482,6 @@
         function closeModal() {
             document.getElementById('reviewModal').classList.add('hidden');
         }
-
-        // กด ESC เพื่อปิด Modal
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
-        });
 
         fetchBooksFromGoogleSheets();
     </script>
